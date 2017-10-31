@@ -1,17 +1,24 @@
 const path = require('path');
+const http = require('http');
 var express = require('express');
+var socketIO = require('socket.io');
 
 const publicPath = path.join(__dirname, '../public')
-
-var app = express();
 const port = process.env.PORT || 3000;
+var app = express();
+var server = http.createServer(app);
+var io = socketIO(server);
 
 app.use(express.static(publicPath)); // map /public on main path
 
-app.get('/', (req, res) => {
-  res.send('Hello on the chat server');
+io.on('connection', (socket) => {
+  console.log('New user connection');
+  
+  socket.on('disconnect', () => {
+    console.log('Client disconnected');
+  });
 });
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server is up on port ${port}.`)
 });

@@ -14,6 +14,13 @@ app.use(express.static(publicPath)); // map /public on main path
 io.on('connection', (socket) => {
   console.log('New user connection');
   
+  socket.on('createMessage', (message) => {
+    console.log('New message', message);
+    
+    message.createdAt = new Date().getTime();
+    socket.emit('newMessage', message);
+  });
+  
   socket.on('disconnect', () => {
     console.log('Client disconnected');
   });

@@ -26,7 +26,7 @@ socket.on('newLocationMessage', (message) => {
     createdAt: formattedTime
   })
   
-  $('#messages').append(li);
+  $('#messages').append(html);
 });
 
 
